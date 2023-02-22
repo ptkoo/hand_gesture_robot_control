@@ -4,6 +4,7 @@
 import cv2
 import mediapipe as mp
 import math
+import serial
 
 
 class HandDetector:
@@ -200,15 +201,32 @@ while True:
         if confidence_score>1:
             confidence_score = 1
         cv2.putText(img, f'{confidence_score:.2f}', (bbox1[0]+100, bbox1[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0,0,255), 2)
-        print(fingers)
+        # print(fingers)
 
-        if len(hands) == 2:
-            # Hand 2
-            hand2 = hands[1]
-            lmList2 = hand2["lmList"]  # List of 21 Landmark points
-            bbox2 = hand2["bbox"]  # Bounding box info x,y,w,h
-            centerPoint2 = hand2['center']  # center of the hand cx,cy
-            handType2 = hand2["type"]  # Hand Type "Left" or "Right"
+        # code for sending the serial data 
+
+        # Set the serial port name and baud rate
+        port = 'COM3'
+        baudrate = 9600
+
+        # Create a serial object
+        # ser = serial.Serial(port, baudrate)
+
+        #send an array of integers
+
+        message = ','.join(str(x) for x in fingers) + '\n'
+
+        print(message)
+     
+        # ser.write(message.encode())
+        
+        # if len(hands) == 2:
+        #     # Hand 2
+        #     hand2 = hands[1]
+        #     lmList2 = hand2["lmList"]  # List of 21 Landmark points
+        #     bbox2 = hand2["bbox"]  # Bounding box info x,y,w,h
+        #     centerPoint2 = hand2['center']  # center of the hand cx,cy
+        #     handType2 = hand2["type"]  # Hand Type "Left" or "Right"
 
     # Display
     cv2.imshow("Image", img)
