@@ -246,7 +246,7 @@ while True:
         confidence_score = prediction[index]
         confidence_score_display = str(np.round(confidence_score * 100, 2)) + "%"
         cv2.putText(imgOutput, labels[index] + ": " + confidence_score_display, (x-10, y-30), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,255), 2)
-        cv2.rectangle(imgOutput, (x-offset, y - offset), (x + w + offset, y + h + offset), (255, 0, 255), 4)
+        cv2.rectangle(imgOutput, (x-offset, y - offset), (x + w + offset, y + h + offset), (255, 0, 255), 4) 
 
         cv2.imshow("ImmageCrop", imgCrop)
         cv2.imshow("ImageWhite", imgWhite)
