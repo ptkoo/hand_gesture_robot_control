@@ -196,10 +196,11 @@ detector = HandDetector(detectionCon=0.5, maxHands=2)
 offset = 20  
 imgSize = 300
 counter = 0 
-arduino = SerialObject('COM3')
+
 
 classifier = Classifier("keras_model1.h5","labels.txt")
 labels = ['0', '1', '2', '3', '4', '5'] 
+arduino = SerialObject()
 while True:
     # Get image frame
     success, img = cap.read()
@@ -267,8 +268,9 @@ while True:
         # ser = serial.Serial(port, baudrate)
 
         #send an array of integers
+        
         print(fingers)
-        arduino.sendData(fingers)
+        print(arduino.sendData(fingers))
       
             # ser.write(str(finger).encode())
 
