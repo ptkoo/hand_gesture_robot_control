@@ -1,6 +1,6 @@
 # from cvzone.HandTrackingModule import HandDetector
 # import cv2
-
+import time
 import cv2
 import mediapipe as mp
 import math
@@ -8,7 +8,7 @@ import serial
 import numpy as np
 from keras.models import load_model
 from cvzone.ClassificationModule import Classifier
-
+from cvzone.SerialModule import SerialObject
 class HandDetector:
     """
     Finds Hands using the mediapipe library. Exports the landmarks
@@ -196,6 +196,7 @@ detector = HandDetector(detectionCon=0.5, maxHands=2)
 offset = 20  
 imgSize = 300
 counter = 0 
+arduino = SerialObject('COM3')
 
 classifier = Classifier("keras_model1.h5","labels.txt")
 labels = ['0', '1', '2', '3', '4', '5'] 
@@ -261,18 +262,17 @@ while True:
         # code for sending the serial data 
 
         # Set the serial port name and baud rate
-        port = 'COM3'
-        baudrate = 9600
-
+        
         # Create a serial object
         # ser = serial.Serial(port, baudrate)
 
         #send an array of integers
+        print(fingers)
+        arduino.sendData(fingers)
+      
+            # ser.write(str(finger).encode())
 
-        # for finger in fingers:
-        #     ser.write(str(finger).encode())
-
-        # ser.write('b'.encode())
+        # ser.write('x'.encode())
         # if len(hands) == 2:
         #     # Hand 2
         #     hand2 = hands[1]
