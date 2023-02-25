@@ -87,7 +87,9 @@ class HandDetector:
                 ## draw
                 if draw:
                     self.mpDraw.draw_landmarks(img, handLms,
-                                               self.mpHands.HAND_CONNECTIONS)
+                                               self.mpHands.HAND_CONNECTIONS,
+                                               self.mpDraw.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2),
+                                               self.mpDraw.DrawingSpec(color=(0, 0, 255), thickness=4, circle_radius=5))
                     cv2.rectangle(img, (bbox[0] - 20, bbox[1] - 20),
                                   (bbox[0] + bbox[2] + 20, bbox[1] + bbox[3] + 20),
                                   (255, 0, 255), 2)
@@ -195,12 +197,14 @@ offset = 20
 imgSize = 300
 counter = 0 
 
-classifier = Classifier("keras_model.h5","labels.txt")
+classifier = Classifier("keras_model1.h5","labels.txt")
 labels = ['0', '1', '2', '3', '4', '5'] 
 while True:
     # Get image frame
     success, img = cap.read()
     imgOutput = img.copy()
+    img = cv2.cvtColor(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), cv2.COLOR_GRAY2BGR) 
+    
     # Find the hand and its landmarks
     hands, img = detector.findHands(img)  # with draw
     # hands = detector.findHands(img, draw=False)  # without draw
@@ -240,6 +244,7 @@ while True:
             imgResizeShape = imgResize.shape
             hGap = math.ceil((imgSize - hCal)/2)
             imgWhite[hGap: hCal+hGap, :] 
+           
             prediction, index = classifier.getPrediction(imgWhite, draw=False)
            
         
@@ -264,12 +269,10 @@ while True:
 
         #send an array of integers
 
-        message = ','.join(str(x) for x in fingers) + '\n'
+        # for finger in fingers:
+        #     ser.write(str(finger).encode())
 
-        print(message)
-     
-        # ser.write(message.encode())
-        
+        # ser.write('b'.encode())
         # if len(hands) == 2:
         #     # Hand 2
         #     hand2 = hands[1]
