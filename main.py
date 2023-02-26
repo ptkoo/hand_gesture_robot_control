@@ -270,7 +270,11 @@ while True:
         #send an array of integers
         
         print(fingers)
-        print(arduino.sendData(fingers))
+        dataSignal = arduino.sendData(fingers)
+        
+        if(dataSignal == False):
+            arduino = SerialObject()
+        print(dataSignal)
       
             # ser.write(str(finger).encode())
 
